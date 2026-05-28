@@ -38,6 +38,25 @@ export interface PaperOutline {
   readingMinutes: number
 }
 
+export interface ChatMessage {
+  id: string
+  role: 'user' | 'model'
+  text: string
+  ts: number
+}
+
+export interface QuizQuestion {
+  question: string
+  options: string[]
+  answerIndex: number
+  explanation: string
+}
+
+export interface Flashcard {
+  term: string
+  definition: string
+}
+
 export interface Paper {
   id: string
   fileName: string
@@ -49,10 +68,13 @@ export interface Paper {
   // AI-generated summary (markdown), optional and filled on demand.
   aiSummary?: string
   aiSummaryAt?: number
+  // AI Professor conversation, persisted so notes-style records survive reloads.
+  chat?: ChatMessage[]
 }
 
 export interface Settings {
-  aiProvider: 'anthropic' | 'openai'
-  apiKey: string
-  model: string
+  // Google Gemini API key, entered by the user and stored only in this browser.
+  geminiApiKey: string
+  textModel: string // e.g. gemini-3.1-flash-lite
+  imageModel: string // e.g. gemini-3.1-flash-image
 }

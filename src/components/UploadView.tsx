@@ -64,60 +64,77 @@ export function UploadView() {
   )
 
   return (
-    <div className="h-full overflow-y-auto scroll-thin flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl text-center">
-        <h1 className="text-3xl font-bold text-ink-900">논문을 업로드하세요</h1>
-        <p className="mt-2 text-ink-500">
-          PDF를 올리면 제목·초록·섹션을 자동으로 정리하고, Notion처럼 노트를 기록할 수 있습니다.
-        </p>
-
-        <div
-          onDragOver={(e) => {
-            e.preventDefault()
-            setDragging(true)
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={onDrop}
-          onClick={() => inputRef.current?.click()}
-          className={`mt-8 cursor-pointer rounded-2xl border-2 border-dashed p-12 transition ${
-            dragging ? 'border-ink-500 bg-ink-100' : 'border-ink-300 bg-white hover:bg-ink-50'
-          }`}
-        >
-          <div className="text-5xl">{status ? '⏳' : '📄'}</div>
-          <p className="mt-4 font-medium text-ink-700">
-            {status ?? 'PDF를 여기로 끌어다 놓거나 클릭해서 선택하세요'}
+    <div className="h-full overflow-y-auto scroll-thin bg-gradient-to-b from-brand-50/50 to-ink-50">
+      <div className="min-h-full flex items-center justify-center p-6">
+        <div className="w-full max-w-3xl text-center py-8">
+          <div className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-700 bg-brand-100 rounded-full px-3 py-1">
+            ✨ AI 논문 학습 워크스페이스
+          </div>
+          <h1 className="mt-4 text-4xl font-bold text-ink-900 font-serif tracking-tight">
+            논문을 올리면, 학습이 시작됩니다
+          </h1>
+          <p className="mt-3 text-ink-500 max-w-xl mx-auto leading-relaxed">
+            PDF를 업로드하면 핵심을 깔끔하게 정리하고, AI 교수와 대화하고, 인포그래픽·퀴즈로 공부하며,
+            Notion처럼 노트를 기록할 수 있습니다.
           </p>
-          {!status && <p className="mt-1 text-sm text-ink-400">브라우저 안에서만 처리됩니다 · 서버 업로드 없음</p>}
-          <input
-            ref={inputRef}
-            type="file"
-            accept="application/pdf,.pdf"
-            className="hidden"
-            onChange={(e) => {
-              const f = e.target.files?.[0]
-              if (f) handleFile(f)
-              e.target.value = ''
+
+          <div
+            onDragOver={(e) => {
+              e.preventDefault()
+              setDragging(true)
             }}
-          />
-        </div>
+            onDragLeave={() => setDragging(false)}
+            onDrop={onDrop}
+            onClick={() => inputRef.current?.click()}
+            className={`mt-8 cursor-pointer rounded-2xl border-2 border-dashed p-12 transition ${
+              dragging ? 'border-brand-500 bg-brand-50 scale-[1.01]' : 'border-ink-300 bg-white hover:border-brand-300 hover:bg-brand-50/40'
+            } shadow-card`}
+          >
+            <div className="text-5xl">{status ? '⏳' : '📄'}</div>
+            <p className="mt-4 font-semibold text-ink-700">
+              {status ?? 'PDF를 여기로 끌어다 놓거나 클릭해서 선택하세요'}
+            </p>
+            {!status && (
+              <p className="mt-1 text-sm text-ink-400">브라우저 안에서만 처리됩니다 · 서버 업로드 없음</p>
+            )}
+            <input
+              ref={inputRef}
+              type="file"
+              accept="application/pdf,.pdf"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0]
+                if (f) handleFile(f)
+                e.target.value = ''
+              }}
+            />
+          </div>
 
-        {error && (
-          <p className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
-            {error}
-          </p>
-        )}
+          {error && (
+            <p className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {error}
+            </p>
+          )}
 
-        <div className="mt-10 grid grid-cols-3 gap-4 text-left">
-          {[
-            ['🧹 자동 정리', '초록·섹션·키워드·핵심 문장을 추출해 깔끔하게 보여줍니다.'],
-            ['📝 Notion식 노트', '슬래시(/) 메뉴로 제목·목록·체크박스를 추가하며 기록합니다.'],
-            ['🤖 AI 요약(선택)', '본인의 API 키를 넣으면 더 깊이 있는 요약을 만들 수 있습니다.'],
-          ].map(([t, d]) => (
-            <div key={t} className="rounded-xl bg-white border border-ink-200 p-4">
-              <div className="font-semibold text-ink-800 text-sm">{t}</div>
-              <div className="mt-1 text-xs text-ink-500 leading-relaxed">{d}</div>
-            </div>
-          ))}
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
+            {[
+              ['🧹', '자동 정리', '초록·섹션·키워드·핵심 문장을 추출해 읽기 좋게 재구성합니다.'],
+              ['🤖', 'AI 심화 요약', 'Gemini가 논문을 한국어로 구조화해 깊이 있게 요약합니다.'],
+              ['🎓', 'AI 교수 채팅', '논문 내용을 근거로 무엇이든 질문하고 답을 얻습니다.'],
+              ['📊', '인포그래픽', '논문 핵심을 한 장의 이미지로 시각화해 줍니다.'],
+              ['🧠', '퀴즈 & 카드', '자가 진단 퀴즈와 용어 플래시카드로 복습합니다.'],
+              ['📝', 'Notion식 노트', '슬래시(/) 메뉴로 자유롭게 기록하고 자동 저장됩니다.'],
+            ].map(([icon, t, d]) => (
+              <div
+                key={t}
+                className="rounded-xl bg-white border border-ink-200 p-4 shadow-card hover:shadow-float transition"
+              >
+                <div className="text-xl">{icon}</div>
+                <div className="mt-2 font-semibold text-ink-800 text-sm">{t}</div>
+                <div className="mt-1 text-xs text-ink-500 leading-relaxed">{d}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

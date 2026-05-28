@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { NoteBlock, Paper, Settings } from './types'
+import type { ChatMessage, NoteBlock, Paper, Settings } from './types'
 import { loadPapers, loadSettings, savePapers, saveSettings, uid } from './lib/storage'
 
 interface Store {
@@ -13,6 +13,7 @@ interface Store {
   removePaper: (id: string) => void
   updateNotes: (id: string, notes: NoteBlock[]) => void
   setAiSummary: (id: string, summary: string) => void
+  updateChat: (id: string, chat: ChatMessage[]) => void
   updateSettings: (s: Settings) => void
 }
 
@@ -51,6 +52,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     )
   }, [])
 
+  const updateChat = useCallback((id: string, chat: ChatMessage[]) => {
+    setPapers((prev) => prev.map((p) => (p.id === id ? { ...p, chat } : p)))
+  }, [])
+
   const updateSettings = useCallback((s: Settings) => {
     setSettings(s)
     saveSettings(s)
@@ -68,6 +73,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     removePaper,
     updateNotes,
     setAiSummary,
+    updateChat,
     updateSettings,
   }
 

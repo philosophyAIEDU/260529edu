@@ -18,9 +18,14 @@ export function Sidebar({ onClose }: { onClose: () => void }) {
 
   return (
     <aside className="w-64 shrink-0 h-full bg-white border-r border-ink-200 flex flex-col">
-      <div className="h-12 shrink-0 flex items-center gap-2 px-3 border-b border-ink-200">
-        <span className="text-lg">📚</span>
-        <span className="font-bold text-ink-800">논문 학습 노트</span>
+      <div className="h-14 shrink-0 flex items-center gap-2 px-3 border-b border-ink-200">
+        <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 grid place-items-center text-white text-base shadow-sm">
+          📚
+        </span>
+        <div className="leading-tight">
+          <div className="font-bold text-ink-800 text-sm">Paper Study</div>
+          <div className="text-[10px] text-ink-400">논문 학습 노트</div>
+        </div>
         <div className="flex-1" />
         <button
           onClick={onClose}
@@ -34,7 +39,7 @@ export function Sidebar({ onClose }: { onClose: () => void }) {
       <div className="p-3">
         <button
           onClick={() => setActiveId(null)}
-          className="w-full text-sm font-medium bg-ink-800 text-white rounded-md py-2 hover:bg-ink-700 transition"
+          className="w-full text-sm font-medium bg-brand-600 text-white rounded-lg py-2.5 hover:bg-brand-700 transition shadow-sm"
         >
           + 새 논문 업로드
         </button>
@@ -55,8 +60,8 @@ export function Sidebar({ onClose }: { onClose: () => void }) {
         {filtered.map((p) => (
           <div
             key={p.id}
-            className={`group flex items-start gap-2 rounded-md px-2 py-2 cursor-pointer ${
-              p.id === activeId ? 'bg-ink-100' : 'hover:bg-ink-50'
+            className={`group flex items-start gap-2 rounded-lg px-2 py-2 cursor-pointer transition ${
+              p.id === activeId ? 'bg-brand-50 ring-1 ring-brand-100' : 'hover:bg-ink-50'
             }`}
             onClick={() => setActiveId(p.id)}
           >

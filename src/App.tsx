@@ -6,7 +6,7 @@ import { PaperWorkspace } from './components/PaperWorkspace'
 import { SettingsModal } from './components/SettingsModal'
 
 export default function App() {
-  const { activePaper } = useStore()
+  const { activePaper, settings } = useStore()
   const [showSettings, setShowSettings] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
@@ -15,26 +15,31 @@ export default function App() {
       {sidebarOpen && <Sidebar onClose={() => setSidebarOpen(false)} />}
 
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-12 shrink-0 border-b border-ink-200 bg-white/80 backdrop-blur flex items-center gap-2 px-3">
+        <header className="h-14 shrink-0 border-b border-ink-200 bg-white/90 backdrop-blur flex items-center gap-2 px-4">
           {!sidebarOpen && (
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-1.5 rounded hover:bg-ink-100 text-ink-600"
+              className="p-1.5 rounded-lg hover:bg-ink-100 text-ink-600"
               title="라이브러리 열기"
             >
               ☰
             </button>
           )}
-          <div className="text-sm font-semibold text-ink-700 truncate">
+          <div className="text-sm font-semibold text-ink-800 truncate">
             {activePaper ? activePaper.outline.title : 'Paper Study'}
           </div>
           <div className="flex-1" />
           <button
             onClick={() => setShowSettings(true)}
-            className="text-sm px-2.5 py-1 rounded-md text-ink-600 hover:bg-ink-100"
-            title="AI 요약 설정"
+            className={`text-sm px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition ${
+              settings.geminiApiKey
+                ? 'text-ink-600 hover:bg-ink-100'
+                : 'bg-amber-50 text-amber-700 ring-1 ring-amber-200 hover:bg-amber-100'
+            }`}
+            title="Gemini API 설정"
           >
-            ⚙︎ 설정
+            <span>⚙</span>
+            {settings.geminiApiKey ? '설정' : 'API 키 입력'}
           </button>
         </header>
 

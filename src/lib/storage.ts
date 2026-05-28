@@ -29,9 +29,9 @@ export function savePapers(papers: Paper[]): void {
 }
 
 const DEFAULT_SETTINGS: Settings = {
-  aiProvider: 'anthropic',
-  apiKey: '',
-  model: 'claude-haiku-4-5-20251001',
+  geminiApiKey: '',
+  textModel: 'gemini-3.1-flash-lite',
+  imageModel: 'gemini-3.1-flash-image',
 }
 
 export function loadSettings(): Settings {
